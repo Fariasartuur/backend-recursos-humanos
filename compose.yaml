@@ -1,0 +1,18 @@
+services:
+  postgres:
+    container_name: rh-container
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=rh_db'
+      - 'POSTGRES_PASSWORD=${DB_PASSWORD}' # Busca do arquivo .env
+      - 'POSTGRES_USER=${DB_USER}'         # Busca do arquivo .env
+    ports:
+      - '5432:5432'
+    restart: always
+    volumes:
+      - ./postgres_data:/var/lib/postgresql # Persistência de dados
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d rh_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
