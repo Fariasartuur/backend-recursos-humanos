@@ -2,6 +2,7 @@ package com.artuur.hrms.services;
 
 import com.artuur.hrms.dto.CreateEmployeeDTO;
 import com.artuur.hrms.dto.CreateUserDTO;
+import com.artuur.hrms.dto.EmployeeResponseDTO;
 import com.artuur.hrms.dto.UpdateEmployeeDTO;
 import com.artuur.hrms.entities.Employee;
 import com.artuur.hrms.entities.User;
@@ -151,5 +152,14 @@ public class EmployeeService {
         }
 
         employeeRepository.save(employee);
+    }
+
+    @Transactional
+    public EmployeeResponseDTO getMyInfo(UUID id) {
+        var employee = employeeRepository.findByUser_UserId(id)
+                .orElseThrow(() -> new RuntimeException("Funcionario não encontrado."));
+
+        return new EmployeeResponseDTO(employee);
+
     }
 }

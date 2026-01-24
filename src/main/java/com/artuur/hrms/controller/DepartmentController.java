@@ -4,6 +4,7 @@ import com.artuur.hrms.dto.DepartmentDTO;
 import com.artuur.hrms.entities.Department;
 import com.artuur.hrms.services.DepartmentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,23 +19,27 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN', 'SCOPE_ROLE_MANAGER')")
     @GetMapping
     public ResponseEntity<List<Department>> listAll() {
         return ResponseEntity.ok(departmentService.listAll());
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> newDepartment(@RequestBody DepartmentDTO dto) {
         departmentService.newDepartment(dto);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateDepartment(@PathVariable Long id, @RequestBody DepartmentDTO dto) {
         departmentService.updateDepartment(id, dto);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDepartment(@PathVariable Long id) {
         departmentService.deleteDepartment(id);

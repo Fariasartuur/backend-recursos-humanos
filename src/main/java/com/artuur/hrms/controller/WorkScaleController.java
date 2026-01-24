@@ -4,6 +4,7 @@ import com.artuur.hrms.dto.WorkScaleDTO;
 import com.artuur.hrms.entities.WorkScale;
 import com.artuur.hrms.services.WorkScaleService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class WorkScaleController {
         this.workScaleService = workScaleService;
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN', 'SCOPE_ROLE_MANAGER', 'SCOPE_ROLE_EMPLOYEE')")
     @GetMapping
     public ResponseEntity<List<WorkScaleDTO>> listAll() {
         List<WorkScaleDTO> list = workScaleService.listAll()
@@ -28,6 +30,7 @@ public class WorkScaleController {
         return ResponseEntity.ok(list);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<WorkScaleDTO> newWorkScale(@RequestBody WorkScaleDTO dto) {
         WorkScale newScale = workScaleService.newWorkScale(dto);

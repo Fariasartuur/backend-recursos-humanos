@@ -2,6 +2,7 @@ package com.artuur.hrms.services;
 
 import com.artuur.hrms.dto.CreatePayrollDTO;
 import com.artuur.hrms.dto.PayrollResponseDTO;
+import com.artuur.hrms.entities.Employee;
 import com.artuur.hrms.entities.Payroll;
 import com.artuur.hrms.repository.EmployeeRepository;
 import com.artuur.hrms.repository.PayrollRepository;
@@ -72,6 +73,14 @@ public class PayrollService {
 
         return new PayrollResponseDTO(payrollRepository.save(payroll));
 
+    }
+
+    @Transactional
+    public List<PayrollResponseDTO> getMyHistory(UUID id) {
+        return payrollRepository.findAllByEmployee_User_UserId(id)
+                .stream()
+                .map(PayrollResponseDTO::new)
+                .toList();
     }
 
     private BigDecimal calculateIrrf(BigDecimal baseCalculation) {

@@ -14,4 +14,5 @@ public interface TimeRecordRepository extends JpaRepository<TimeRecord, UUID> {
 
     List<TimeRecord> findAllByEmployee_EmployeeId(UUID employeeEmployeeId);
     Optional<TimeRecord> findByEmployee_EmployeeIdAndDate(UUID id, LocalDate date);
+    List<TimeRecord> findAllByEmployee_User_UserIdOrderByEntryHourDesc(UUID userId);
 }

@@ -1,5 +1,6 @@
 package com.artuur.hrms.services;
 
+import com.artuur.hrms.dto.TimeRecordResponseDTO;
 import com.artuur.hrms.entities.TimeRecord;
 import com.artuur.hrms.enums.Type;
 import com.artuur.hrms.repository.EmployeeRepository;
@@ -29,6 +30,17 @@ public class TimeRecordService {
                 .orElseThrow(() -> new RuntimeException("Funcionario não encontrado"));
 
         return timeRecordRepository.findAllByEmployee_EmployeeId(employee.getEmployeeId());
+    }
+
+    @Transactional
+    public List<TimeRecordResponseDTO> listMyRecords(UUID id) {
+        var employee = employeeRepository.findByUser_UserId(id)
+                .orElseThrow(() -> new RuntimeException("Funcionario não encontrado"));
+
+        return timeRecordRepository.findAllByEmployee_User_UserIdOrderByEntryHourDesc(id)
+                .stream()
+                .map(TimeRecordResponseDTO::new)
+                .toList();
     }
 
     @Transactional
