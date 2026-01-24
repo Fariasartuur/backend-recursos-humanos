@@ -3,8 +3,6 @@ package com.artuur.hrms.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "tb_positions")
 @Getter
@@ -22,6 +20,6 @@ public class Position {
     @Column(nullable = false)
     private String title;
 
-    private Double salaryRangeMin; // Opcional: para validar salários
+    private Double salaryRangeMin;
     private Double salaryRangeMax;
 }

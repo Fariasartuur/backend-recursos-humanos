@@ -5,6 +5,7 @@ import com.artuur.hrms.dto.CreateUserDTO;
 import com.artuur.hrms.dto.UpdateEmployeeDTO;
 import com.artuur.hrms.entities.Employee;
 import com.artuur.hrms.entities.User;
+import com.artuur.hrms.entities.WorkScale;
 import com.artuur.hrms.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,16 @@ public class EmployeeService {
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
     private final StatusRepository statusRepository;
+    private final WorkScaleRepository workScaleRepository;
 
-    public EmployeeService(UserService userService, UserRepository userRepository, EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, PositionRepository positionRepository, StatusRepository statusRepository) {
+    public EmployeeService(UserService userService, UserRepository userRepository, EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, PositionRepository positionRepository, StatusRepository statusRepository, WorkScaleRepository workScaleRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
         this.positionRepository = positionRepository;
         this.statusRepository = statusRepository;
+        this.workScaleRepository = workScaleRepository;
     }
 
     public List<Employee> listAll() {
@@ -37,6 +40,9 @@ public class EmployeeService {
 
     @Transactional
     public void newEmployee(CreateEmployeeDTO dto) {
+
+        var scale = workScaleRepository.findById(dto.scaleId())
+                .orElseThrow(() -> new RuntimeException("Escala não encontrada"));
 
         var department = departmentRepository.findById(dto.departmentId())
                 .orElseThrow(() -> new RuntimeException("Departamento não encontrado"));
@@ -62,6 +68,9 @@ public class EmployeeService {
                 .user(user)
                 .department(department)
                 .position(position)
+                .healthPlan(dto.healthPlan())
+                .scale(scale)
+                .scaleStartDate(dto.scaleStartDate())
                 .build();
 
         employeeRepository.save(employee);
@@ -112,20 +121,34 @@ public class EmployeeService {
         var employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Funcionario não encontrado"));
 
-        var status = statusRepository.findById(dto.statusId())
-                .orElseThrow(() -> new RuntimeException("Status não encontrado"));
-
-        var position = positionRepository.findById(dto.positionId())
-                .orElseThrow(() -> new RuntimeException("Posição não encontrada"));
-
-        var department = departmentRepository.findById(dto.departmentId())
-                .orElseThrow(() -> new RuntimeException("Departamento não encontrado"));
-
         employee.setNome(dto.nome());
-        employee.setStatus(status);
-        employee.setDepartment(department);
-        employee.setPosition(position);
+        employee.setHealthPlan(dto.healthPlan());
         employee.setBaseSalary(dto.baseSalary());
+        employee.setScaleStartDate(dto.scaleStartDate());
+
+        if (dto.scaleId() != null) {
+            WorkScale newScale = workScaleRepository.findById(dto.scaleId())
+                    .orElseThrow(() -> new RuntimeException("Escala não encontrada"));
+            employee.setScale(newScale);
+        }
+
+        if (dto.departmentId() != null) {
+            var department = departmentRepository.findById(dto.departmentId())
+                    .orElseThrow(() -> new RuntimeException("Departamento não encontrado"));
+            employee.setDepartment(department);
+        }
+
+        if (dto.statusId() != null) {
+            var status = statusRepository.findById(dto.statusId())
+                    .orElseThrow(() -> new RuntimeException("Status não encontrado"));
+            employee.setStatus(status);
+        }
+
+        if (dto.positionId() != null) {
+            var position = positionRepository.findById(dto.positionId())
+                    .orElseThrow(() -> new RuntimeException("Posição não encontrada"));
+            employee.setPosition(position);
+        }
 
         employeeRepository.save(employee);
     }

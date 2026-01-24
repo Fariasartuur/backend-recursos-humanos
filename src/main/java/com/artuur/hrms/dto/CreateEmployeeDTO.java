@@ -7,12 +7,14 @@ import java.util.UUID;
 public record CreateEmployeeDTO(
         String nome,
         String cpf,
-        BigDecimal
-        baseSalary,
+        BigDecimal baseSalary,
+        BigDecimal healthPlan,
         LocalDate admissionDate,
         UUID userId,
         Long departmentId,
         Long positionId,
-        Long statusId
+        Long statusId,
+        Long scaleId,
+        LocalDate scaleStartDate
 ) {
 }

@@ -34,6 +34,9 @@ public class Employee {
     @Column(name = "base_salary", nullable = false)
     private BigDecimal baseSalary;
 
+    @Column(name = "health_plan")
+    private BigDecimal healthPlan;
+
     @Column(name = "admission_date", nullable = false)
     private LocalDate admissionDate;
 
@@ -48,5 +51,12 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     private Status status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "scale_id")
+    private WorkScale scale;
+
+    @Column(name = "scale_start_date")
+    private LocalDate scaleStartDate;
 
 }

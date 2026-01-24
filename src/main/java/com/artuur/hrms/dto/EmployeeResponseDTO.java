@@ -11,11 +11,14 @@ public record EmployeeResponseDTO(
         String nome,
         String cpf,
         BigDecimal baseSalary,
+        BigDecimal healthPlan,
         LocalDate admissionDate,
         String departmentName,
         String positionName,
         String statusName,
-        String userEmail
+        String userEmail,
+        String scaleName,
+        LocalDate scaleStartDate
 ) {
 
     public EmployeeResponseDTO(Employee employee) {
@@ -24,11 +27,14 @@ public record EmployeeResponseDTO(
                 employee.getNome(),
                 employee.getCpf(),
                 employee.getBaseSalary(),
+                employee.getHealthPlan(),
                 employee.getAdmissionDate(),
-                employee.getDepartment().getName(),
-                employee.getPosition().getTitle(),
-                employee.getStatus().getName(),
-                employee.getUser() != null ? employee.getUser().getEmail() : null
+                employee.getDepartment() != null ? employee.getDepartment().getName() : null,
+                employee.getPosition() != null ? employee.getPosition().getTitle() : null,
+                employee.getStatus() != null ? employee.getStatus().getName() : null,
+                employee.getUser() != null ? employee.getUser().getEmail() : null,
+                employee.getScale() != null ? employee.getScale().getName() : "Não definida",
+                employee.getScaleStartDate()
         );
     }
 }
