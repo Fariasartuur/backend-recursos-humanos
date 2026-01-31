@@ -32,18 +32,18 @@ public class UserConfig implements CommandLineRunner {
         var roleManager = roleRepository.findByName(Role.Values.ROLE_MANAGER.name());
         var roleEmployee = roleRepository.findByName(Role.Values.ROLE_EMPLOYEE.name());
 
-        var userAdmin = userRepository.findByUsername("Artuur");
+        var userAdmin = userRepository.findByUsername("User");
 
         userAdmin.ifPresentOrElse(
                 (user) -> {
-                    System.out.println("Artuur ja exite!");
+                    System.out.println("User ja exite!");
                 },
                 () -> {
                     var user = new User();
-                    user.setUsername("Artuur");
+                    user.setUsername("User");
                     user.setPassword(passwordEncoder.encode("123456"));
-                    user.setEmail("arturfarias49@gmail.com");
-                    user.setRoles(Set.of(roleAdmin, roleManager, roleEmployee));
+                    user.setEmail("user@gmail.com");
+                    user.setRoles(Set.of(roleEmployee));
                     userRepository.save(user);
                 }
 

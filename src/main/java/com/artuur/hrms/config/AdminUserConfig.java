@@ -29,6 +29,8 @@ public class AdminUserConfig implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         var roleAdmin = roleRepository.findByName(Role.Values.ROLE_ADMIN.name());
+        var roleManager = roleRepository.findByName(Role.Values.ROLE_MANAGER.name());
+        var roleEmployee = roleRepository.findByName(Role.Values.ROLE_EMPLOYEE.name());
 
         var userAdmin = userRepository.findByUsername("admin");
 
@@ -41,7 +43,7 @@ public class AdminUserConfig implements CommandLineRunner {
                     user.setUsername("admin");
                     user.setPassword(passwordEncoder.encode("123"));
                     user.setEmail("admin@gmail.com");
-                    user.setRoles(Set.of(roleAdmin));
+                    user.setRoles(Set.of(roleAdmin, roleManager, roleEmployee));
                     userRepository.save(user);
                 }
 
