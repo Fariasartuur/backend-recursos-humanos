@@ -44,4 +44,8 @@ public class User {
     public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
         return passwordEncoder.matches(loginRequest.password(), this.password);
     }
+
+    public boolean isLoginCorrect(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.password);
+    }
 }

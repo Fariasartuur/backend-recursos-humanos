@@ -42,7 +42,7 @@ public class EmployeeController {
 
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     @PostMapping("/{id}/promote")
-    public ResponseEntity<Void> promoteEmployeeToUser(@PathVariable UUID id, @RequestBody CreateUserDTO dto) {
+    public ResponseEntity<Void> promoteEmployeeToUser(@PathVariable UUID id, @RequestBody UpdateUserDTO dto) {
         employeeService.promoteToUser(id, dto);
         return ResponseEntity.ok().build();
     }

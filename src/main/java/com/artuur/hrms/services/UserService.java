@@ -2,6 +2,7 @@ package com.artuur.hrms.services;
 
 import com.artuur.hrms.dto.CreateUserDTO;
 import com.artuur.hrms.dto.UpdateUserDTO;
+import com.artuur.hrms.dto.UserResponseDTO;
 import com.artuur.hrms.entities.Role;
 import com.artuur.hrms.entities.User;
 import com.artuur.hrms.repository.RoleRepository;
@@ -50,6 +51,11 @@ public class UserService {
     }
 
     @Transactional
+    public User getMyUser(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+    }
+
+    @Transactional
     public void updateUser(UUID id, UpdateUserDTO dto) {
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -67,5 +73,6 @@ public class UserService {
 
         userRepository.delete(user);
     }
+
 
 }

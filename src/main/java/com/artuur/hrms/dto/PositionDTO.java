@@ -1,4 +1,12 @@
 package com.artuur.hrms.dto;
 
-public record PositionDTO(String title, Double salaryRangeMin, Double salaryRangeMax) {
+import java.util.UUID;
+
+public record PositionDTO(
+        UUID id,
+        String title,
+        Double salaryRangeMin,
+        Double salaryRangeMax,
+        Boolean active
+) {
 }

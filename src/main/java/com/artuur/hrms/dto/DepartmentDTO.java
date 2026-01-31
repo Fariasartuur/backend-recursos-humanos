@@ -1,4 +1,6 @@
 package com.artuur.hrms.dto;
 
-public record DepartmentDTO(String name) {
+import java.util.UUID;
+
+public record DepartmentDTO(UUID id, String name, Boolean active) {
 }

@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface PayrollRepository extends JpaRepository<Payroll, UUID> {
 
     List<Payroll> findAllByEmployee_EmployeeIdOrderByReferenceMonthDesc(UUID id);
-    List<Payroll> findAllByEmployee_User_UserId(UUID userId);
+    List<Payroll> findAllByEmployee_EmployeeId(UUID employeeId);
 }

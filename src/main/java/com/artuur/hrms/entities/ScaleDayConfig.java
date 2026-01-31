@@ -25,8 +25,8 @@ public class ScaleDayConfig {
     @Column(nullable = false)
     private Integer dayOrder;
 
-    @Column(nullable = false)
-    private boolean isWorkDay;
+    @Column(nullable = false, name = "is_work_day")
+    private Boolean workDay;
 
     private LocalTime plannedEntry;
     private LocalTime plannedExit;

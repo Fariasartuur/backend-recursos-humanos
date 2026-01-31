@@ -77,7 +77,10 @@ public class PayrollService {
 
     @Transactional
     public List<PayrollResponseDTO> getMyHistory(UUID id) {
-        return payrollRepository.findAllByEmployee_User_UserId(id)
+        var employee = employeeRepository.findByUser_UserId(id)
+                .orElseThrow(() -> new RuntimeException("Funcionario não encontrado"));
+
+        return payrollRepository.findAllByEmployee_EmployeeId(employee.getEmployeeId())
                 .stream()
                 .map(PayrollResponseDTO::new)
                 .toList();

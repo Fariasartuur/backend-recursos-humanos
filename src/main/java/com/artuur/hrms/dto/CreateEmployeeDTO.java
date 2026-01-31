@@ -11,10 +11,10 @@ public record CreateEmployeeDTO(
         BigDecimal healthPlan,
         LocalDate admissionDate,
         UUID userId,
-        Long departmentId,
-        Long positionId,
+        UUID departmentId,
+        UUID positionId,
         Long statusId,
-        Long scaleId,
+        UUID scaleId,
         LocalDate scaleStartDate
 ) {
 }

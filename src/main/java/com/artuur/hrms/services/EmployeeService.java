@@ -1,9 +1,6 @@
 package com.artuur.hrms.services;
 
-import com.artuur.hrms.dto.CreateEmployeeDTO;
-import com.artuur.hrms.dto.CreateUserDTO;
-import com.artuur.hrms.dto.EmployeeResponseDTO;
-import com.artuur.hrms.dto.UpdateEmployeeDTO;
+import com.artuur.hrms.dto.*;
 import com.artuur.hrms.entities.Employee;
 import com.artuur.hrms.entities.User;
 import com.artuur.hrms.entities.WorkScale;
@@ -12,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -78,7 +76,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void promoteToUser(UUID employeeId, CreateUserDTO dto) {
+    public void promoteToUser(UUID employeeId, UpdateUserDTO dto) {
         var employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Funcionario não encontrado"));
 
@@ -86,7 +84,14 @@ public class EmployeeService {
             throw new RuntimeException("Este funcionário já possui um usuário vinculado");
         }
 
-        userService.newUser(dto);
+        CreateUserDTO createDto = new CreateUserDTO(
+                dto.username(),
+                dto.email(),
+                dto.username() + "123",
+                Set.of("ROLE_EMPLOYEE")
+        );
+
+        userService.newUser(createDto);
 
         var user = userRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));

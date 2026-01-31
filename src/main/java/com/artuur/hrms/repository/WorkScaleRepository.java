@@ -4,6 +4,10 @@ import com.artuur.hrms.entities.WorkScale;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.UUID;
+
 @Repository
-public interface WorkScaleRepository extends JpaRepository<WorkScale, Long> {
+public interface WorkScaleRepository extends JpaRepository<WorkScale, UUID> {
+    List<WorkScale> findByActiveTrue();
 }

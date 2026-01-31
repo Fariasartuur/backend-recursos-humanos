@@ -1,7 +1,9 @@
 package com.artuur.hrms.controller;
 
+import com.artuur.hrms.dto.ClockInRequest;
 import com.artuur.hrms.dto.TimeRecordResponseDTO;
 import com.artuur.hrms.entities.TimeRecord;
+import com.artuur.hrms.repository.EmployeeRepository;
 import com.artuur.hrms.services.TimeRecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +19,7 @@ public class TimeRecordController {
 
     private final TimeRecordService timeRecordService;
 
-    public TimeRecordController(TimeRecordService timeRecordService) {
+    public TimeRecordController(TimeRecordService timeRecordService, EmployeeRepository employeeRepository) {
         this.timeRecordService = timeRecordService;
     }
 
@@ -41,9 +43,8 @@ public class TimeRecordController {
 
     @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN', 'SCOPE_ROLE_MANAGER', 'SCOPE_ROLE_EMPLOYEE')")
     @PostMapping("/employee")
-    public ResponseEntity<TimeRecordResponseDTO> clockIn(JwtAuthenticationToken token) {
-        UUID id = UUID.fromString(token.getName());
-        TimeRecord record = timeRecordService.clockIn(id);
+    public ResponseEntity<TimeRecordResponseDTO> clockIn(@RequestBody ClockInRequest request) {
+        TimeRecord record = timeRecordService.clockIn(request);
         return ResponseEntity.ok(new TimeRecordResponseDTO(record));
     }
 }

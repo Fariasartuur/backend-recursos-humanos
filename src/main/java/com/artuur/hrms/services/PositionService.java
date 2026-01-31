@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PositionService {
@@ -21,30 +22,35 @@ public class PositionService {
         return positionRepository.findAll();
     }
 
+    public List<Position> listAllActive() { return positionRepository.findByActiveTrue(); }
+
     @Transactional
     public void newPosition(PositionDTO dto) {
         var position = Position.builder()
                 .title(dto.title())
                 .salaryRangeMax(dto.salaryRangeMax())
                 .salaryRangeMin(dto.salaryRangeMin())
+                .active(dto.active())
                 .build();
 
         positionRepository.save(position);
     }
 
     @Transactional
-    public void deletePosition(Long id) {
+    public void deletePosition(UUID id) {
         var position = positionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Posição não encontrada"));
 
-        positionRepository.delete(position);
+        position.setActive(false);
+        positionRepository.save(position);
     }
 
     @Transactional
-    public void updatePosition(Long id, PositionDTO dto) {
+    public void updatePosition(UUID id, PositionDTO dto) {
         var position = positionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Posição não encontrada"));
 
+        position.setActive(dto.active());
         position.setTitle(dto.title());
         position.setSalaryRangeMax(dto.salaryRangeMax());
         position.setSalaryRangeMin(dto.salaryRangeMin());

@@ -7,6 +7,7 @@ import com.artuur.hrms.entities.User;
 import com.artuur.hrms.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +39,15 @@ public class UserController {
                 .map(UserResponseDTO::new)
                 .toList();
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> getMyUser(JwtAuthenticationToken token) {
+        UUID id = UUID.fromString(token.getName());
+        User user = userService.getMyUser(id);
+
+        var response = new UserResponseDTO(user);
         return ResponseEntity.ok(response);
     }
 

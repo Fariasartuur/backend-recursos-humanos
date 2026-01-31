@@ -1,4 +1,6 @@
 package com.artuur.hrms.dto;
 
-public record LoginResponse(String accessToken, Long expiresIn) {
+import java.util.List;
+
+public record LoginResponse(String accessToken, Long expiresIn, List<String> roles) {
 }

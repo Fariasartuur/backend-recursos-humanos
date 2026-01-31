@@ -15,10 +15,13 @@ import java.util.UUID;
 public class Department {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "department_id")
-    private Long departmentId;
+    private UUID departmentId;
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(nullable = false)
+    private Boolean active = true;
 }

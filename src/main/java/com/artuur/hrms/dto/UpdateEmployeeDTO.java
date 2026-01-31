@@ -2,15 +2,16 @@ package com.artuur.hrms.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record UpdateEmployeeDTO(
         String nome,
         BigDecimal baseSalary,
         BigDecimal healthPlan,
-        Long departmentId,
-        Long positionId,
+        UUID departmentId,
+        UUID positionId,
         Long statusId,
-        Long scaleId,
+        UUID scaleId,
         LocalDate scaleStartDate
 ) {
 }
