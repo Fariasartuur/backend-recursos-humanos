@@ -44,7 +44,7 @@ Ao iniciar a aplicação pela primeira vez, os seguintes registros mestre são i
 
 ## 🛣️ Guia de Endpoints (API Reference)
 
-A documentação completa e interativa pode ser acessada em: `http://localhost:8080/swagger-ui.html`
+A documentação completa e interativa pode ser acessada em: `http://localhost:8080/swagger-ui/index.html`
 
 ### 🔐 Autenticação
 * **POST** `/login`: Autentica o usuário e retorna o JWT com as roles.
